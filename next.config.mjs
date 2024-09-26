@@ -1,8 +1,5 @@
 import { createMDX } from 'fumadocs-mdx/next';
 import webpack from 'webpack';
-import { remarkImage } from 'fumadocs-core/mdx-plugins';
-import rehypeKatex from 'rehype-katex';
-import remarkMath from 'remark-math';
 
 const withMDX = createMDX();
 
