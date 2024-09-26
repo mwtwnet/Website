@@ -6,10 +6,8 @@ import { I18nProvider } from 'fumadocs-ui/i18n';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { NextDocsProvider } from './next-docs-provider';
-import Footer from '@/app/components/Footer';
 import { footer, urlBase } from '@/config';
 import Script from 'next/script';
-import { NextRequest, NextResponse } from 'next/server';
 import { Metadata } from 'next';
 
 const inter = Inter({

@@ -17,7 +17,6 @@ var blog = defineCollections({
 });
 var source_config_default = defineConfig({
   generateManifest: true,
-  lastModifiedTime: "git",
   mdxOptions: {
     rehypeCodeOptions: {
       inline: "tailing-curly-colon",

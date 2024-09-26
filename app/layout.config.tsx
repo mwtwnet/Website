@@ -1,9 +1,8 @@
 import { type HomeLayoutProps } from 'fumadocs-ui/home-layout';
-import { Book, BookIcon, LayoutTemplateIcon, Timer } from 'lucide-react';
+import { Book, LayoutTemplateIcon, Timer } from 'lucide-react';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiceSix } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 export const baseOptions: HomeLayoutProps = {

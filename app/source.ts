@@ -1,23 +1,18 @@
 import { blog, docs, meta } from '@/.source';
 import { createMDXSource } from 'fumadocs-mdx';
 import { InferMetaType, InferPageType, loader } from 'fumadocs-core/source';
-import { z } from 'zod';
 import { icons } from 'lucide-react';
 import { createElement } from 'react';
 
 export const docSource = loader({
   baseUrl: '/docs',
   source: createMDXSource(docs, meta),
-  icon(ico) {
-    if (!ico) {
-      // You may set a default icon
+  icon(icon) {
+    if (!icon) {
       return;
     }
 
-    const [prefix, name] = ico.split('|');
-    if (prefix == 'lucide') {
-      if (name in icons) return createElement(icons[name as keyof typeof icons]);
-    }
+    if (icon in icons) return createElement(icons[icon as keyof typeof icons]);
   }
 });
 

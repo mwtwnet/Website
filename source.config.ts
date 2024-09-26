@@ -1,9 +1,5 @@
-import { transformerRemoveNotationEscape } from '@shikijs/transformers';
-import { rehypeCodeDefaultOptions } from 'fumadocs-core/mdx-plugins';
-import { Source } from 'fumadocs-core/source';
 import { fileGenerator, remarkDocGen, remarkInstall, typescriptGenerator } from 'fumadocs-docgen';
 import { defineCollections, defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config';
-import { transformerTwoslash } from 'fumadocs-twoslash';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import { z } from 'zod';
@@ -23,7 +19,6 @@ export const blog = defineCollections({
 
 export default defineConfig({
     generateManifest: true,
-    lastModifiedTime: 'git',
     mdxOptions: {
         rehypeCodeOptions: {
             inline: 'tailing-curly-colon',
