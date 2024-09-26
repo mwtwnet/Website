@@ -1,0 +1,13 @@
+{
+    "title": "音樂指令",
+    "pages": [
+      "psearch",
+      "player",
+      "queuea",
+      "joinleave",
+      "suggestion",
+      "search",
+      "..."
+    ],
+    "defaultOpen": false
+}

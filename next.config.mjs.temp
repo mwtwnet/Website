@@ -1,0 +1,53 @@
+import MillionLint from '@million/lint';
+import createMDX from 'fumadocs-mdx/config';
+import webpack from 'webpack';
+import { remarkImage } from 'fumadocs-core/mdx-plugins';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
+const withMDX = createMDX({
+  mdxOptions: {
+    remarkPlugins: [remarkMath],
+    // Place it at first so that it won't be changed by rehype-pretty-code
+    rehypePlugins: v => [rehypeKatex, ...v]
+  }
+});
+
+/** @type {import('next').NextConfig} */
+const config = {
+  remarkPlugins: [remarkImage],
+  reactStrictMode: true,
+  async redirects() {
+    return [{
+      source: '/discord',
+      destination: 'https://discord.gg/fe7fq34rkc',
+      permanent: true
+    }];
+  },
+  images: {
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: "i.imgur.com",
+      port: '',
+      pathname: "/**"
+    }, {
+      protocol: 'https',
+      hostname: "wallpapercave.com",
+      port: '',
+      pathname: "/**"
+    }, {
+      protocol: 'https',
+      hostname: "cdn.discordapp.com",
+      port: '',
+      pathname: "/**"
+    }]
+  },
+  webpack: (config, options) => {
+    config.plugins.push(new webpack.NormalModuleReplacementPlugin(/^node:/, resource => {
+      resource.request = resource.request.replace(/^node:/, "");
+    }));
+    return config;
+  }
+};
+export default MillionLint.next({
+  rsc: true
+})(withMDX(config));

@@ -1,0 +1,71 @@
+---
+title: 指令大集
+---
+## 資訊指令
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/help](/docs/frogmusic/cmd/info/help) | 顯示幫助指南 | ❎ | ❎ | ❎ |
+| [/invite](/docs/frogmusic/cmd/info/invite) | 顯示邀請連結 | ❎ | ❎ | ❎ |
+| [/ping](/docs/frogmusic/cmd/info/ping) | 查看機器人延遲 | ❎ | ❎ | ❎ |
+| [/node](/docs/frogmusic/cmd/info/node) | 查看音樂節點資訊 | ❎ | ❎ | ❎ |
+
+## 音樂指令
+### 點播查找
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/play](/docs/frogmusic/cmd/music/psearch/play) | 播放並查詢音樂 | ❎ | ✅ | ❎ |
+| [/playnext](/docs/frogmusic/cmd/music/psearch/playnext) | 播放並查詢音樂且插入至下首 | ❎ | ✅ | ❎ |
+| [/search](/docs/frogmusic/cmd/music/psearch/search) | 使用引擎搜尋歌曲 | ❎ | ✅ | ❎ |
+
+### 媒體播放器
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/pause](/docs/frogmusic/cmd/music/player/pause) | 暫停目前音樂播放器 | ❎ | ✅ | ✅ |
+| [/resume](/docs/frogmusic/cmd/music/player/resume) | 繼續目前音樂播放器 | ❎ | ✅ | ✅ |
+| [/loop](/docs/frogmusic/cmd/music/player/loop) | 設定播放器迴圈模式 | ❎ | ✅ | ✅ |
+| [/shuffle](/docs/frogmusic/cmd/music/player/shuffle) | 隨機亂數播放清單 | ✅ | ✅ | ✅ |
+| [/volume](/docs/frogmusic/cmd/music/player/volume) | 調整播放器音量 | ✅ | ✅ | ✅ |
+| [/seek](/docs/frogmusic/cmd/music/player/seek) | 快轉至某些秒數 | ❎ | ✅ | ✅ |
+| [/skip](/docs/frogmusic/cmd/music/player/skip) | 跳過至下首 | ✅ | ✅ | ✅ |
+| [/skipto](/docs/frogmusic/cmd/music/player/skipto) | 跳過至指定歌曲 | ✅ | ✅ | ✅ |
+
+### 播放清單
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/nowplaying](/docs/frogmusic/cmd/music/queuea/nowplaying) | 顯示正在播放的歌曲 | ❎ | ✅ | ✅ |
+| [/queue](/docs/frogmusic/cmd/music/queuea/queue) | 顯示播放清單 | ❎ | ✅ | ✅ |
+| [/remove](/docs/frogmusic/cmd/music/queuea/remove) | 從播放清單中移除歌曲 | ✅ | ✅ | ✅ |
+| [/clearqueue](/docs/frogmusic/cmd/music/queuea/clearqueue) | 清空播放清單 | ✅ | ✅ | ✅ |
+
+### 進入退出頻道
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/join](/docs/frogmusic/cmd/music/joinleave/join) | 加入語音頻道 | ❎ | ✅ | ❎ |
+| [/leave](/docs/frogmusic/cmd/music/joinleave/leave) | 離開語音頻道 | ❎ | ✅ | ❎ |
+| [/stop](/docs/frogmusic/cmd/music/joinleave/stop) | 停止音樂，並且清空播放清單 | ✅ | ✅ | ✅ |
+
+### 自動推薦系統
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/lofi](/docs/frogmusic/cmd/music/suggestion/lofi) | 播放來自 Lofi Girl 的電台歌曲 | ❎ | ✅ | ❎ |
+| [/suggest](/docs/frogmusic/cmd/music/suggestion/suggest) | 播放來自 Spotify 的推薦音樂 | ❎ | ✅ | ❎ |
+| [/autoplay](/docs/frogmusic/cmd/music/suggestion/autoplay) | 自動播放推薦歌曲 | ✅ | ✅ | ✅ |
+
+### 查找系統
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/grab](/docs/frogmusic/cmd/music/search/grab) | 收到私訊關於這首曲子 | ❎ | ✅ | ✅ |
+| [/lyrics](/docs/frogmusic/cmd/music/search/lyrics) | 從API上取得正在播放的歌詞 | ❎ | ✅ | ✅ |
+
+## 設置指令
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/dj](/docs/frogmusic/cmd/settings/dj) | 開關設定DJ模式 | ❎ | ❎ | ❎ |
+| [/247](/docs/frogmusic/cmd/settings/247) | 防止機器人離開頻道 | ❎ | ✅ | ❎ |
+| [/setup](/docs/frogmusic/cmd/settings/setup) | 設定群組中的點播頻道 | ❎ | ❎ | ❎ |
+
+## 其他指令
+| 指令 | 描述 | 需要 DJ | 需要在頻道 | 需要正在播放 |
+| ---- | ---- | :----: | :----: | :----: |
+| [/filter](/docs/frogmusic/cmd/other/filter) | 開關設定過濾器 | ✅ | ✅ | ✅ |
+| [/playlist](/docs/frogmusic/cmd/other/playlist) | 個人化播放清單 | ❎ | ❎ | ❎ |

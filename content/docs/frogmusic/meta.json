@@ -1,0 +1,12 @@
+{
+  "title": "青蛙音樂",
+  "pages": [
+    "start",
+    "functions",
+    "cmd",
+    "status",
+    "faq",
+    "..."
+  ],
+  "defaultOpen": false
+}

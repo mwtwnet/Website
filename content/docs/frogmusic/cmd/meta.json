@@ -1,0 +1,9 @@
+{
+    "pages": [
+      "info",
+      "music",
+      "settings",
+      "other"
+    ],
+    "defaultOpen": false
+}
