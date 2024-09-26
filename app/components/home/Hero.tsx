@@ -15,8 +15,8 @@ export const Hero = () => {
               歡迎來到多元世界！
             </h1>
             <div className="py-5 text-xl leading-normal text-gray-500 lg:text-xl xl:text-2xl dark:text-gray-300">
-                <div className="flex justify-center items-center"><Check width={"5em"} style={{marginRight: "7", color: "green"}}/>我們是一個團隊，致力於打造一個多元化聊天世界，並且讓每個人都能找到自己的位置。</div>
-                <div className="flex justify-center items-center"><Check width={"5em"} style={{color: "green"}}/>我們也帶給各位不同的想法和觀點，希望能夠幫助大家更好地了解這個虛擬世界。</div>
+                <div className="flex justify-center items-center" style={{paddingBottom: "10px"}}><Check width={"5em"} style={{color: "green"}}/>我們是一個團隊，致力於打造一個多元化聊天世界，以及各種機器人、軟體、網頁開發。</div>
+                <div className="flex justify-center items-center"><Check width={"5em"} style={{marginLeft: "-10", marginRight: "-10", color: "green"}}/>我們也歡迎不同的想法以及立場，並讓它們在這裡，擦出不一樣的火花</div>
             </div>
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row ">
@@ -24,8 +24,8 @@ export const Hero = () => {
                 href="/discord"
                 target="_blank"
                 rel="noopener"
-                className="px-8 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-lg ">
-                加入我們 Discord 吧！
+                className="px-7 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-lg ">
+                加入我們的 Discord 吧！
               </a>
             </div>
           </div>
