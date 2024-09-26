@@ -45,14 +45,14 @@ const config = {
       }
     ]
   },
-  // webpack: (config, options) => {
-  //   config.plugins.push(
-  //     new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
-  //       resource.request = resource.request.replace(/^node:/, "");
-  //     })
-  //   );
-  //   return config;
-  // },
+  webpack: (config, options) => {
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+        resource.request = resource.request.replace(/^node:/, "");
+      })
+    );
+    return config;
+  },
 };
 
 export default withMDX(config);
