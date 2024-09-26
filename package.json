@@ -38,6 +38,7 @@
     "remark-math": "^6.0.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "turbo": "^2.1.2",
     "webpack": "^5.94.0"
   },
   "devDependencies": {
