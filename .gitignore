@@ -3,6 +3,8 @@
 /.turbo
 /.vscode
 
+/.source
+
 # generated content
 .map.ts
 .contentlayer
