@@ -36,4 +36,3 @@ bun.lockb
 # Turborepo
 .turbo
 .env
-/.source/
