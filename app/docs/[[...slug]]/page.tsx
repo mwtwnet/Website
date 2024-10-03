@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { DocsPage, DocsBody, DocsTitle } from 'fumadocs-ui/page';
+import { DocsPage, DocsBody, DocsTitle, DocsDescription } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { docSource } from '@/app/source';
 import { useMDXComponents } from '@/mdx-components';
@@ -28,6 +28,7 @@ export default function Page({
       }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
+      <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
         <MDX components={
           useMDXComponents()
