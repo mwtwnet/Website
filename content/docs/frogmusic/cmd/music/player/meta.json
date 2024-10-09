@@ -1,6 +1,14 @@
 {
     "title": "媒體播放器",
     "pages": [
+      "nowplaying",
+      "pause",
+      "resume",
+      "skip",
+      "skipto",
+      "seek",
+      "shuffle",
+      "volume",
       "..."
     ],
     "defaultOpen": false
