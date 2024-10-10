@@ -8,6 +8,28 @@ import { Viewport } from 'next';
 import { Provider } from './provider';
 import { I18nProvider } from 'fumadocs-ui/i18n';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBYuxhwASGQBmcFYKj2lubHFZk5SqpBmXI",
+  authDomain: "mwtw-net.firebaseapp.com",
+  projectId: "mwtw-net",
+  storageBucket: "mwtw-net.appspot.com",
+  messagingSenderId: "424692273765",
+  appId: "1:424692273765:web:b4d07dd797832a2dc06c8c",
+  measurementId: "G-LSTF7BD9JP"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#0A0A0A' },
