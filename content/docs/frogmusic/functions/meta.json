@@ -1,8 +1,9 @@
 {
   "title": "功能亮點",
   "pages": [
-    "start",
     "playlist",
+    "setup",
+    "search",
     "region",
     "..."
   ],
