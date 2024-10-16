@@ -1,6 +1,9 @@
 {
-    "title": "播放清單",
+    "title": "待播清單",
     "pages": [
+      "queue",
+      "clearqueue",
+      "remove",
       "..."
     ],
     "defaultOpen": false
