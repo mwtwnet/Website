@@ -79,13 +79,13 @@ export const blogAuthors: Record<string, AuthorData> = {
     name: "河馬",
     title: "Founder",
     url: "https://sptw.me",
-    image_url: "https://cdn.discordapp.com/avatars/561210753517092884/3b2b4989cfd10f281ce32addf0bf3242.png?size=1024"
+    image_url: "https://avatars.githubusercontent.com/u/74442940?v=4"
   },
   bu: {
     name: "Bu",
     title: "Co-Founder",
     url: "https://bu.mwtw.net",
-    image_url: "/authors/bu.png"
+    image_url: "https://avatars.githubusercontent.com/u/108647302?v=4"
   },
   blockeric: {
     name: "八瑞",

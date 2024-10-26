@@ -1,0 +1,102 @@
+---
+title: 延伸Ubuntu磁碟分區
+authors: [bu]
+description: "延伸Ubuntu磁碟分區"
+tags:
+  [
+    "Linux",
+    "Ubuntu"
+  ]
+date: 2024-10-26
+image: https://media.tenor.com/c23KjadBzWYAAAAi/frog-dance.gif
+---
+
+檢查是否有未分配的磁區
+```sh
+vgdisplay
+```
+查看第19行，有未分配的空間
+```sh
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <62.00 GiB
+  PE Size               4.00 MiB
+  Total PE              15871
+  Alloc PE / Size       7935 / <31.00 GiB
+  Free  PE / Size       7936 / 31.00 GiB
+  VG UUID               xxxxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxxxx
+```
+
+查看檔案系統/分區
+```sh
+df -h
+```
+```sh
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              1.2G  1.9M  1.2G   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   31G   27G  2.2G  93% /
+tmpfs                              5.9G     0  5.9G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+/dev/sda2                          2.0G  242M  1.6G  14% /boot
+tmpfs                              1.2G  4.0K  1.2G   1% /run/user/1000
+tmpfs                              1.2G  4.0K  1.2G   1% /run/user/0
+```
+
+延伸空間:
+```sh
+lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+```
+```sh
+Size of logical volume ubuntu-vg/ubuntu-lv changed from <31.00 GiB (7935 extents) to <62.00 GiB (15871 extents).
+Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+```
+
+重新計算
+```sh
+resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv 
+```
+```sh
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 4, new_desc_blocks = 8
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 16251904 (4k) blocks long.
+```
+
+再檢查一次使否已分配未使用的磁區
+```sh
+vgdisplay
+```
+```sh
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <62.00 GiB
+  PE Size               4.00 MiB
+  Total PE              15871
+  Alloc PE / Size       15871 / <62.00 GiB
+  Free  PE / Size       0 / 0   
+  VG UUID               xxxxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxxxx
+```

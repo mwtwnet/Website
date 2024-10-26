@@ -1,5 +1,6 @@
 import { blogs } from "@/app/source";
 import { blogAuthors, domain } from "@/config";
+import { useMDXComponents } from "@/mdx-components";
 import { DocsBody } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -12,7 +13,9 @@ export default function BlogPage({ params }: { params: { slug: string } }) {
 
   return (
     <DocsBody>
-      <MDX />
+      <MDX components={
+          useMDXComponents()
+        }/>
     </DocsBody>
   );
 }

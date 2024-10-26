@@ -51,6 +51,12 @@ const config = {
         hostname: 'cdn.mwtw.net',
         port: '',
         pathname: "/**"
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: "/**"
       }
     ]
   },
