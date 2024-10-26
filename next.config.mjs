@@ -39,6 +39,18 @@ const config = {
         hostname: "cdn.discordapp.com",
         port: '',
         pathname: "/**"
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.tenor.com',
+        port: '',
+        pathname: "/**"
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.mwtw.net',
+        port: '',
+        pathname: "/**"
       }
     ]
   },

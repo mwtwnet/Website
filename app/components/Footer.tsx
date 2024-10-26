@@ -45,8 +45,7 @@ function Info() {
         <p className="text-xl font-bold">多元世界團隊</p>
       </div>
       <p className="mt-2 text-xs text-muted-foreground text-center">
-        客服信箱: <a href="mailto:support@mwtw.net">support@mwtw.net</a><br />
-        客服電話: <a href="tel:+886-9-2831-9932">+886-9-2831-9932</a>
+        客服信箱: <a href="mailto:support@mwtw.net">support@mwtw.net</a>
       </p>
       <p className="mt-2 text-xs text-muted-foreground text-center">
         Copyright © 2022 ~ {new Date(Date.now()).getFullYear() + 1} 多元世界團隊. All Rights Reserved
