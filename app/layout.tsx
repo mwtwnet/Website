@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <html lang="zh-TW">
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
         <I18nProvider 
-          locale='cn'
+          locale='zh-TW'
           translations={
             {
               search: '搜索',

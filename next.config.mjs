@@ -8,6 +8,11 @@ const config = {
   async redirects() {
     return [
       {
+        source: '/zh-TW',
+        destination: '/',
+        permanent: true,
+      },
+      {
         source: '/discord',
         destination: 'https://discord.gg/fe7fq34rkc',
         permanent: true,

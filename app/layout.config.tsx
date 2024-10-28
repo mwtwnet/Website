@@ -1,4 +1,4 @@
-import { type HomeLayoutProps } from 'fumadocs-ui/home-layout';
+import { type HomeLayoutProps } from 'fumadocs-ui/layouts/home';
 import { Book, LayoutTemplateIcon, Timer } from 'lucide-react';
 import Image from 'next/image';
 import Logo from '@/public/logo.png';
