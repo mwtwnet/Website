@@ -1,5 +1,4 @@
 import { createMDX } from 'fumadocs-mdx/next';
-import webpack from 'webpack';
 
 const withMDX = createMDX();
 
@@ -59,15 +58,7 @@ const config = {
         pathname: "/**"
       }
     ]
-  },
-  webpack: (config, options) => {
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
-        resource.request = resource.request.replace(/^node:/, "");
-      })
-    );
-    return config;
-  },
+  }
 };
 
 export default withMDX(config);

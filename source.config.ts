@@ -1,5 +1,6 @@
 import { fileGenerator, remarkDocGen, remarkInstall, typescriptGenerator } from 'fumadocs-docgen';
 import { defineCollections, defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config';
+import { remarkStructure } from 'fumadocs-core/mdx-plugins';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import { z } from 'zod';
@@ -29,6 +30,7 @@ export default defineConfig({
         },
         remarkPlugins: [
             remarkMath,
+            remarkStructure,
             [remarkInstall, { persist: { id: 'package-manager' } }],
             [remarkDocGen, { generators: [typescriptGenerator(), fileGenerator()] }],
         ],

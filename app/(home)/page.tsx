@@ -1,17 +1,11 @@
-import { Metadata } from 'next';
-import { Container } from '@/app/components/home/Container';
 import { Hero } from '@/app/components/home/Hero';
-import { SectionTitle } from '@/app/components/home/SectionTitle';
-import Link from 'next/link';
 import { urlBase } from '@/config';
 import { createMetadata } from '@/lib/metaData';
-import { NewHero } from '../components/home/NewHero';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* <NewHero /> */}
     </>
   );
 }
