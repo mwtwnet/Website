@@ -16,6 +16,6 @@
     ".next/types/**/*.ts",
     "next.config.js",
     "tailwind.config.js"
-  ],
+, ".oldPage/copyright.tsx", ".oldPage/page.tsx"  ],
   "exclude": ["node_modules"]
 }
