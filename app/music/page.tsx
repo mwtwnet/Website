@@ -1,9 +1,3 @@
-import { useParams, useSearchParams } from "next/navigation";
-import { baseOptions } from "../layout.config";
-import { HomeLayout } from "fumadocs-ui/home-layout";
-import { LinkButton } from "../components/LinkButton";
-import Link from "fumadocs-core/link";
-import * as lucid from "lucide-react";
 import { Metadata } from "next";
 import Card from "../../components/MusicCard";
 import { Suspense } from "react";
