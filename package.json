@@ -9,9 +9,13 @@
     "dev": "next dev",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
-    "update": "bun install fumadocs-core@latest fumadocs-mdx@latest fumadocs-ui@latest fumadocs-mdx@latest"
+    "update": "bun install fumadocs-core@latest fumadocs-mdx@latest fumadocs-ui@latest fumadocs-mdx@latest",
+    "pages:build": "npx @cloudflare/next-on-pages",
+    "preview": "npm run pages:build && wrangler pages dev",
+    "deploy": "npm run pages:build && wrangler pages deploy"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.13.5",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
