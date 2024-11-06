@@ -54,3 +54,5 @@ export function generateMetadata({ params }: { params: { slug?: string[] } }) {
     description: page.data.description,
   } satisfies Metadata;
 }
+
+export const runtime = 'edge';

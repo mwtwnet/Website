@@ -50,3 +50,5 @@ export function generateMetadata({
     },
   };
 }
+
+export const runtime = 'edge';
