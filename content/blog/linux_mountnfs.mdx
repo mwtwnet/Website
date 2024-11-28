@@ -26,7 +26,19 @@ mkdir /mnt/nfs
 ```sh
 mount -t nfs ip:/路徑 /掛載點
 ```
-## 取消掛載
+### 取消掛載
 ```sh
 umount /掛載點
+```
+### 開機自動掛載
+```sh
+nano /etc/fstab
+```
+### 在最後一行加入
+```sh
+ip:/路徑 /掛載點 nfs 參數 0 0
+```
+範例:
+```sh
+192.168.28.215:/Multimedia /mnt/nfs nfs nfsvers=3 0 0
 ```
