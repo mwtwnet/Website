@@ -1,0 +1,32 @@
+---
+title: Linux 掛載 NFS
+authors: [bu]
+description: "Linux 掛載 NFS"
+tags:
+  [
+    "Linux",
+    "Ubuntu"
+  ]
+date: 2024-11-28
+# image: 
+---
+<Info>
+本篇使用 Ubuntu，其他發行版可能會有些許不同。
+</Info>
+### 安裝 nfs-common
+```sh
+apt update
+apt install nfs-common
+```
+### 建立掛載點
+```sh
+mkdir /mnt/nfs
+```
+### 掛載NFS
+```sh
+mount -t nfs ip:/路徑 /掛載點
+```
+## 取消掛載
+```sh
+umount /掛載點
+```
