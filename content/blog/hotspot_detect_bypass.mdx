@@ -19,15 +19,21 @@ Android/iOS 修改需要 root 或越獄
 電信公司是透過 TTL 這項技術偵測網路是否有被分享，TTL預設是 64，但如果把網路分享給電腦，電信公司收到的數值就會比 64 少，因為多經過一次路由，所以我們把電腦的預設 TTL 改成 65 這樣經過一次分享後還是 64。 
 由於現今大多數的 5G 方案的熱點流量都是有限的，或是跟手機流量合併計算，被降速後更是不擊手機網路降速的速度，因此記錄此方法以便日後使用。
 # 修改 TTL
-## Windows
-1. 在鍵盤輸入 `Win + R` 開啟執行，輸入 `regedit` 開啟登錄編輯程式。
+## Windows (方法1)
+1. 已管理員身分執行終端機
 ![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_1.png)
+2. 輸入 `netsh int ipv4 set glob defaultcurhoplimit=65`
+3. 輸入 `ping 127.0.0.1`，查看 TTL 是否為 65
+![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_2.png)
+## Windows (方法2)
+1. 在鍵盤輸入 `Win + R` 開啟執行，輸入 `regedit` 開啟登錄編輯程式。
+![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_3.png)
 2. 依序展開 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters`(也可以直接貼上路徑)
 3. 在空白處按右鍵 `新增` -> `DWORD(32位元)值`
-![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_2.png)
+![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_4.png)
 4. 更改名稱為 `DefaultTTL`
 5. 點擊兩下 `DefaultTTL` 編輯數值，在數值資料中輸入 `65` 並改為 `十近制`，按確定。
-![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_3.png)
+![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_5.png)
 6. 重開機
 7. 重開機後可以在 `cmd` 輸入 `ping 127.0.0.1` 看看 TTL 是否為 65
 {/* ![](https://cdn.mwtw.net/blog/hotspot_detect_bypass/hotspot_detect_bypass_4.png) */}
