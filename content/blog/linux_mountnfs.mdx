@@ -10,31 +10,33 @@ tags:
 date: 2024-11-28
 # image: 
 ---
+
 <Info>
 本篇使用 Ubuntu，其他發行版可能會有些許不同。
 </Info>
-### 安裝 nfs-common
+# 掛載NFS
+## 安裝 nfs-common
 ```sh
 apt update
 apt install nfs-common
 ```
-### 建立掛載點
+## 建立掛載點
 ```sh
 mkdir /mnt/nfs
 ```
-### 掛載NFS
+## 掛載NFS
 ```sh
 mount -t nfs ip:/路徑 /掛載點
 ```
-### 取消掛載
+## 取消掛載
 ```sh
 umount /掛載點
 ```
-### 開機自動掛載
+# 開機自動掛載
 ```sh
 nano /etc/fstab
 ```
-### 在最後一行加入
+## 在最後一行加入
 ```sh
 ip:/路徑 /掛載點 nfs 參數 0 0
 ```

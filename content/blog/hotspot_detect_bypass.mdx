@@ -1,0 +1,28 @@
+---
+title: 避開熱點分享偵測
+authors: [bu]
+description: "避開電信公司熱點分享的偵測"
+tags:
+  [
+    "windows",
+    "Network"
+  ]
+date: 2024-12-05
+# image: 
+---
+
+<Warning>
+此方法只適用於電腦、筆電，手機、平板無法使用  
+Android/iOS 修改需要 root 或越獄
+</Warning>
+# 說明
+電信公司是透過 TTL 這項技術偵測網路是否有被分享，TTL預設是 64，但如果把網路分享給電腦，電信公司收到的數值就會比 64 少，因為多經過一次路由，所以我們把電腦的預設 TTL 改成 65 這樣經過一次分享後還是 64。
+# 修改 TTL
+## Windows
+1. 在鍵盤輸入 `Win + R` 開啟執行，輸入 `regedit` 開啟登錄編輯程式。
+2. 依序展開 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters`(也可以直接貼上路徑)
+3. 在空白處按右鍵 `新增` -> `DWORD(32位元)值`
+4. 更改名稱為 `DefaultTTL`
+5. 點擊兩下 `DefaultTTL` 編輯數值，在數值資料中輸入 `65` 並改為 `十近制`，按確定。
+6. 重開機
+7. 重開機後可以在 `cmd` 輸入 `ping 127.0.0.1` 看看 TTL 是否為 65
