@@ -9,6 +9,13 @@
   body {
     @apply text-foreground;
   }
+  @font-face {
+      font-family: "CJK";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/fonts/cjkFonts_allseto_v1.11.ttf")
+  }
 }
 
 /* Code Blocks */

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export const Hero = () => {
   return (
     <>
-      <Container className="flex flex-wrap ">
+      <Container className="flex flex-wrap h-[70vh]">
         <div className="flex items-center w-full lg:w-1/2">
           <div className="max-w-2xl mb-8">
             <h1 className="text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:text-4xl lg:leading-tight xl:text-6xl xl:leading-tight dark:text-white">
@@ -24,7 +24,7 @@ export const Hero = () => {
                 href="/discord"
                 target="_blank"
                 rel="noopener"
-                className="px-7 py-4 text-lg font-medium text-center text-white bg-indigo-600 rounded-lg ">
+                className="px-7 py-4 text-lg font-semibold text-center text-white bg-indigo-600 rounded-lg">
                 加入我們的 Discord 吧！
               </a>
             </div>
@@ -42,9 +42,9 @@ export const Hero = () => {
             }}>
             <Image
               src={heroImg}
-              width="512"
-              height="512"
-              className={"object-cover drop-shadow-xl"}
+              width="418"
+              height="418"
+              className={"object-cover"}
               alt="Hero Illustration"
               loading="eager"
               placeholder="blur"
