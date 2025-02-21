@@ -14,7 +14,7 @@ date: 2024-11-28
 <Info>
 本篇使用 Ubuntu，其他發行版可能會有些許不同。
 </Info>
-# 掛載NFS
+# 掛載 NFS
 ## 安裝 nfs-common
 ```sh
 apt update
@@ -24,13 +24,19 @@ apt install nfs-common
 ```sh
 mkdir /mnt/nfs
 ```
-## 掛載NFS
+## 掛載 NFS
 ```sh
 mount -t nfs ip:/路徑 /掛載點
 ```
 ## 取消掛載
 ```sh
 umount /掛載點
+```
+## 指定 NFS 版本
+可以使用 `-o nfsvers=3` 指定 NFS 版本  
+範例:
+```sh
+mount -t nfs -o nfsvers=3 ip:/路徑 /掛載點
 ```
 # 開機自動掛載
 ```sh
