@@ -1,13 +1,10 @@
 # deps
 /node_modules
-/.turbo
-/.vscode
-
-/.source
 
 # generated content
-.map.ts
 .contentlayer
+.content-collections
+.source
 
 # test & build
 /coverage
@@ -29,12 +26,3 @@ yarn-error.log*
 .env*.local
 .vercel
 next-env.d.ts
-
-package-lock.json
-
-yarn.lock
-
-bun.lockb
-# Turborepo
-.turbo
-.env

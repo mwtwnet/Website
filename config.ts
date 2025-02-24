@@ -1,5 +1,5 @@
-import type { FooterCategory } from "@/app/components/Footer";
-import { AuthorData } from "./app/types";
+import type { FooterCategory } from "@/components/Footer";
+import { AuthorData } from "@/types";
 
 export const domain = "https://mwtw.net";
 
