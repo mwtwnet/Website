@@ -18,6 +18,15 @@ const config = {
         pathname: '**',
       },
     ]
+  },
+  redirects: () => {
+    return [
+      {
+        source: '/discord',
+        destination: 'https://discord.gg/fe7fq34rkc',
+        permanent: true,
+      },
+    ];
   }
 };
 
