@@ -56,7 +56,7 @@ export default function Page() {
         guildId = discordGuildId;
     }
 
-    const [image, setImage] = useState('https://placehold.co/150');
+    const [image, setImage] = useState('/assets/150.png');
     const [title, setTitle] = useState('無');
     const [author, setAuthor] = useState('無');
     const [percentage, setPercentage] = useState(0);
@@ -145,7 +145,7 @@ export default function Page() {
 
     return (
         <div className="font-['CJK']">
-            <div className="fixed blur-sm -z-10 w-screen h-screen bg-cover bg-[url('https://cdn.discordapp.com/banners/1216003625503948830/d84b63eba6a325a057e403d3425dd368.png?size=4096')]"></div>
+            <div className="fixed blur-sm -z-10 w-screen h-screen bg-cover bg-[url('/assets/banner.png')]"></div>
             <div className="h-[calc(100vh-6rem)] overflow-y-auto">
                 <div className="container mt-8">
                 { error == 'No lyrics found' && (
