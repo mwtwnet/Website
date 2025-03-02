@@ -6,15 +6,22 @@ import { useEffect, useRef, useState } from "react";
 import {Callout} from "fumadocs-ui/components/callout";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { urlBase } from "config";
 
-async function fetchData(guildId: string) {
+async function fetchData(guildId: string, botId?: string) {
+    if (botId) {
+        const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId + "&botId=" + botId)).json();
+        return data;
+    }
     const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId)).json();
     // console.log(data);
     return data;
 }
 
-async function fetchLyrics(guildId: string) {
+async function fetchLyrics(guildId: string, botId?: string) {
+    if (botId) {
+        const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId + "&lyrics=true&async=true&botId=" + botId)).json();
+        return data;
+    }
     const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId + "&lyrics=true&async=true")).json();
     // console.log(data);
     return data;
@@ -56,6 +63,7 @@ export default function Page() {
     if (discordGuildId) {
         guildId = discordGuildId;
     }
+    var botId = params.get('botId') || undefined;
 
     const [image, setImage] = useState('/assets/150.png');
     const [title, setTitle] = useState('無');
@@ -86,7 +94,7 @@ export default function Page() {
         }
 
         const fetchDataAsync = async () => {
-            const data = await fetchData(guildId as string);
+            const data = await fetchData(guildId as string, botId);
 
             if (data.data.current) {
                 setImage(data.data.current?.info.artworkUrl);
@@ -106,7 +114,7 @@ export default function Page() {
             }
         };
         const fetchLyricsAsync = async () => {
-            const data = await fetchLyrics(guildId as string);
+            const data = await fetchLyrics(guildId as string, botId);
             if (data.error) {
                 setError(data.error);
             } else {
