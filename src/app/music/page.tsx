@@ -91,7 +91,7 @@ export default function Page() {
             if (data.data.current) {
                 setImage(data.data.current?.info.artworkUrl);
                 setTitle(data.data.current?.info.title);
-                setAuthor(data.data.curren?.info.author);
+                setAuthor(data.data.current?.info.author);
                 setPercentage((data.position/1000) / data.data.current?.info.duration);
                 // setPaused(data.paused);
                 setLength(data.data.current.info.duration);
