@@ -134,6 +134,8 @@ export default function Page() {
                         timeE: line.endsAt
                     }
                 }));
+            } else {
+                setError('No synced lyrics found');
             }
         }
 
