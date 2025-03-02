@@ -82,7 +82,7 @@ export default function Page() {
                     element[0].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 }
             }
-            console.log(view.current.classList)
+            // console.log(view.current.classList)
         }
 
         const fetchDataAsync = async () => {
