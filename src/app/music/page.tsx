@@ -9,13 +9,13 @@ import { cn } from "@/lib/utils";
 import { urlBase } from "config";
 
 async function fetchData(guildId: string) {
-    const data = await (await axios.get('/api/frogmusic/guild?guildId=' + guildId)).data;
+    const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId)).json();
     // console.log(data);
     return data;
 }
 
 async function fetchLyrics(guildId: string) {
-    const data = await (await axios.get('/api/frogmusic/guild?guildId=' + guildId + "&lyrics=true&async=true")).data;
+    const data = await (await fetch('/api/frogmusic/guild?guildId=' + guildId + "&lyrics=true&async=true")).json();
     // console.log(data);
     return data;
 }
