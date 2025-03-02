@@ -184,7 +184,7 @@ export default function Page() {
                     </div>
                 )}
                 </div>
-                {
+                { error == null && (
                     (asyncLyrics.length > 0)  && (
                         <div className="container mb-2" ref={view}>
                             <Callout type="info">已獲取同步歌詞</Callout>
@@ -210,7 +210,7 @@ export default function Page() {
                             }
                         </div>
                     )
-                }
+                )}
             </div>
 
 
