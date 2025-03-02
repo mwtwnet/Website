@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import {Callout} from "fumadocs-ui/components/callout";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { urlBase } from "config";
 
 async function fetchData(guildId: string) {
     const data = await (await axios.get('/api/frogmusic/guild?guildId=' + guildId)).data;
@@ -144,7 +145,7 @@ export default function Page() {
     // console.log(data)
 
     return (
-        <div className="font-['CJK']">
+        <div>
             <div className="fixed blur-sm -z-10 w-screen h-screen bg-cover bg-[url('/assets/banner.png')]"></div>
             <div className="h-[calc(100vh-6rem)] overflow-y-auto">
                 <div className="container mt-8">

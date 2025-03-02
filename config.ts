@@ -6,7 +6,7 @@ export const domain = "https://mwtw.net";
 export const urlBase = new URL(
   process.env.VERCEL_URL
     ? `${domain}`
-    : "http://localhost:3000",
+    : "http://localhost:3001",
 );
 
 export const footer: FooterCategory[] = [
