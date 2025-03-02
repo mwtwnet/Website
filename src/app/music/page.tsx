@@ -88,16 +88,22 @@ export default function Page() {
         const fetchDataAsync = async () => {
             const data = await fetchData(guildId as string);
 
-            setImage(data.data.current.info.artworkUrl);
-            setTitle(data.data.current.info.title);
-            setAuthor(data.data.current.info.author);
-            setPercentage((data.position/1000) / data.data.current.info.duration);
-            // setPaused(data.paused);
-            setLength(data.data.current.info.duration);
-            if (oldPosition != data.position) {
-                setCurrent(Number(data.position));
+            if (data.data.current) {
+                setImage(data.data.current?.info.artworkUrl);
+                setTitle(data.data.current?.info.title);
+                setAuthor(data.data.curren?.info.author);
+                setPercentage((data.position/1000) / data.data.current?.info.duration);
+                // setPaused(data.paused);
+                setLength(data.data.current.info.duration);
+                if (oldPosition != data.position) {
+                    setCurrent(Number(data.position));
+                }
+                oldPosition = data.position;
             }
-            oldPosition = data.position;
+
+            if (!data.playing) {
+                setError('No song playing');
+            }
         };
         const fetchLyricsAsync = async () => {
             const data = await fetchLyrics(guildId as string);
@@ -149,6 +155,11 @@ export default function Page() {
             <div className="fixed blur-sm -z-10 w-screen h-screen bg-cover bg-[url('/assets/banner.png')]"></div>
             <div className="h-[calc(100vh-6rem)] overflow-y-auto">
                 <div className="container mt-8">
+                { error == 'No song playing' && (
+                    <div>
+                        <Callout type="error">沒有正在播放的歌曲 {"😢"}</Callout>
+                    </div>
+                )}
                 { error == 'No lyrics found' && (
                     <div>
                         <Callout type="error">無法獲取歌詞 {"😢"}</Callout>
