@@ -266,7 +266,7 @@ export default function Page() {
                 whileHover="show"
                 transition={{ duration: 0.5 }}
             >
-                <ScrollText /><motion.span variants={animations}>&nbsp;{autoScroll ? " 關閉自動捲動" : " 開啟自動捲動"}</motion.span>
+                <ScrollText /><motion.span variants={animations}>&nbsp;{autoScroll ? " 關閉自動跟隨" : " 開啟自動跟隨"}</motion.span>
             </motion.button>
         </div>
     )
