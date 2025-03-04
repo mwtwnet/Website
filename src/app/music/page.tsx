@@ -66,10 +66,10 @@ export default function Page() {
     var botId = params.get('botId') || undefined;
 
     const [image, setImage] = useState('/assets/150.png');
-    const [title, setTitle] = useState('無');
-    const [author, setAuthor] = useState('無');
+    const [title, setTitle] = useState('沒有正在播放的歌曲');
+    const [author, setAuthor] = useState('N/A');
     const [percentage, setPercentage] = useState(0);
-    // const [paused, setPaused] = useState(false); // eslint-disable-line @typescript-eslint/no-unused-vars
+    const [paused, setPaused] = useState(false);
     const [length, setLength] = useState(0);
     const [current, setCurrent] = useState<number>(0);
     const [error, setError] = useState<string | null>(null);
@@ -101,19 +101,28 @@ export default function Page() {
                 setTitle(data.data.current?.info.title);
                 setAuthor(data.data.current?.info.author);
                 setPercentage((data.position/1000) / data.data.current?.info.duration);
-                // setPaused(data.paused);
+                setPaused(data.paused);
                 setLength(data.data.current.info.duration);
                 if (oldPosition != data.position) {
                     setCurrent(Number(data.position));
                 }
                 oldPosition = data.position;
+                setPaused(false);
             }
 
             if (!data.playing) {
                 setError('No song playing');
+                setImage('/assets/150.png');
+                setTitle('沒有正在播放的歌曲');
+                setAuthor('N/A');
+                setPercentage(0);
+                setLength(0);
+                setCurrent(0);
+                setPaused(true);
             }
         };
         const fetchLyricsAsync = async () => {
+            if (error == 'No song playing') return;
             const data = await fetchLyrics(guildId as string, botId);
             if (data.error) {
                 setError(data.error);
@@ -150,11 +159,12 @@ export default function Page() {
                 fetchLyricsAsync();
             }, 2000)
             setInterval(() => {
+                if (paused) return; 
                 setCurrent(prevAddon => prevAddon + 1000);
             }, 1000)
         }
         // setCurrent(current + addon);
-    }, [guildId, current, percentage, length, asyncLyrics, lyrics, error, view]);
+    }, [guildId, current, percentage, length, asyncLyrics, lyrics, error, view, paused]);
 
     // const data = await (await axios.get('http://localhost:3001/api/frogmusic/guild?guildId=' + guildId)).data
 
