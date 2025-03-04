@@ -46,9 +46,11 @@ export async function GET(req: NextRequest) {
         };
         // console.log(d.data[0])
         if (!async) {
-            return NextResponse.json(d.data[0]);
+            return NextResponse.json(d.data);
         } else {
             // console.log(d.data[0])
+            // console.log(output.data.current)
+            // d.data.filter((item: any) => item.duration === output.data.current.info);
             if (!d.data[0].syncedLyrics) {
                 return NextResponse.json({ error: 'No synced lyrics found', plainText: d.data[0].plainLyrics });
             }
