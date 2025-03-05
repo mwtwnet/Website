@@ -36,7 +36,7 @@ export const footer: FooterCategory[] = [
     items: [
       {
         label: "GitHub",
-        href: "https://github.com/mwdmc",
+        href: "https://github.com/mwtw",
         newWindow: true,
       },
       {
