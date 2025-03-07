@@ -10,7 +10,7 @@ export default function Page(): React.ReactElement {
   );
 
   return (
-    <main className="container max-sm:px-0 md:py-12 rounded-lg">
+    <main className="container max-sm:px-0 md:pb-6 rounded-lg">
       <div
         className="h-[300px] p-8 md:h-[400px] md:p-12 background-cover background-norepeat"
         style={{
