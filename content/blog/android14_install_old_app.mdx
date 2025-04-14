@@ -1,0 +1,26 @@
+---
+title: 在Android14以上的裝置上安裝舊版應用程式
+author: Bu
+description: "怎麼在Android14以上的裝置安裝因版本過舊而不相容無法安裝的應用程式"
+tags:
+  [
+    "Android"
+  ]
+date: 2025-04-14
+#image: 
+---
+
+## 問題
+### APK安裝失敗
+在Android14以上的裝置上安裝舊版應用程式時，直接在裝置上使用apk安裝，會出現「應用程式與你的手機不相容，因此未能完成安裝」的錯誤提示，無法安裝。
+### ADB安裝失敗
+```shell
+adb.exe: failed to install xxx.apk: Failure [INSTALL_FAILED_DEPRECATED_SDK_VERSION: App package must target at least SDK version 23, but found 7]
+```
+## 解決方法
+### 1. 使用ADB安裝
+```shell
+adb install --bypass-low-target-sdk-block xxx.apk
+```
+### 2. 修改targetSdkVersion
+將targetSdkVersion改為23或以上的版本。
