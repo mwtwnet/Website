@@ -1,0 +1,29 @@
+---
+title: PVE 硬碟直通
+author: Bu
+description: "PVE 直通硬碟到虛擬機"
+tags:
+  [
+    "ProxmoxVE"
+  ]
+date: 2025-05-06
+# image: 
+---
+打開 PVE 命令列  
+列出所有的硬碟，並找到要直通的硬碟
+```bash
+ls /dev/disk/by-id
+```
+使用以下命令將其直通到虛擬機中
+<Callout type="info">
+VMID 為要直通到的虛擬機ID
+</Callout>
+```bash
+qm set VMID --sata0 /dev/disk/by-id/硬碟ID
+```
+命令列應該會輸出以下內容
+```bash
+qm set 100 --sata0 /dev/disk/by-id/ata-Samsung_SSD_860_EVO_500GB_S3Z4NB0K123456
+```
+在 PVE 網頁介面中，選擇虛擬機，然後點擊硬碟，應該會看到剛剛直通的硬碟
+![](https://cdn.mwtw.net/blog/pve_disk_passthrough/1.png)
