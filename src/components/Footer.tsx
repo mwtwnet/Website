@@ -50,7 +50,7 @@ function Info() {
         客服信箱: <a href="mailto:support@mwtw.net">support@mwtw.net</a>
       </p>
       <p className="mt-2 text-xs text-muted-foreground text-center">
-        Copyright © 2022 ~ {new Date(Date.now()).getFullYear() + 1} 多元世界團隊. All Rights Reserved
+        Copyright © 2022 ~ {new Date(Date.now()).getFullYear()} 多元世界團隊. All Rights Reserved
       </p>
     </div>
   );

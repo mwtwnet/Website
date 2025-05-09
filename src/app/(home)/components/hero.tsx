@@ -20,16 +20,31 @@ export default function Hero() {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        whileHover={{ scale: 1.05 }}
                         className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row"
                     >
-                        <a
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
                             href="/discord"
                             target="_blank"
                             rel="noopener"
                             className="px-7 py-4 text-lg font-semibold text-center text-white bg-indigo-600 rounded-lg">
                             加入我們的 Discord 吧！
-                        </a>
+                        </motion.a>
+                    </motion.div>
+                    <div className="h-3"></div>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row"
+                    >
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            href="https://dcs.tw"
+                            target="_blank"
+                            rel="noopener"
+                            className="px-5 py-3 text-lg font-semibold text-center text-white bg-gray-600 rounded-lg">
+                            來看看我們開發的 Discord 探索平台
+                        </motion.a>
                     </motion.div>
                 </div>
             </div>
