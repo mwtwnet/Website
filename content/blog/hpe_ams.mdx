@@ -1,0 +1,54 @@
+---
+title: HPE DL380 Gen9 PVE 安裝 AMS
+author: Bu
+description: "HPE DL380 Gen9 PVE 安裝 Agentless Management Service"
+tags:
+  [
+    "ProxmoxVE", "HPE", "iLO"
+  ]
+date: 2025-08-03
+# image: 
+---
+<Callout type="info">
+應該適用於 HPE DLXXX/XX Gen9 系列伺服器
+</Callout>
+## 新增軟體源
+### Proxmox VE 8.x (Debian 12 - Bookworm)
+```bash
+# 新增 HPE 儲存庫
+echo "deb https://downloads.linux.hpe.com/SDR/repo/mcp bookworm/current non-free" > /etc/apt/sources.list.d/hpe-mcp.list
+
+# 匯入 GPG 金鑰
+curl https://downloads.linux.hpe.com/SDR/hpePublicKey2048_key1.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/hpe-mcp.gpg
+```
+### Proxmox VE 7.x (Debian 11 - Bullseye)
+```bash
+# 新增 HPE 儲存庫
+echo "deb https://downloads.linux.hpe.com/SDR/repo/mcp bullseye/current non-free" > /etc/apt/sources.list.d/hpe-mcp.list
+
+# 匯入 GPG 金鑰
+curl https://downloads.linux.hpe.com/SDR/hpePublicKey2048_key1.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/hpe-mcp.gpg
+```
+### Proxmox VE 6.x (Debian 10 - Buster)
+```bash
+# 新增 HPE 儲存庫
+echo "deb https://downloads.linux.hpe.com/SDR/repo/mcp buster/current non-free" > /etc/apt/sources.list.d/hpe-mcp.list
+
+# 匯入 GPG 金鑰
+curl https://downloads.linux.hpe.com/SDR/hpePublicKey2048_key1.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/hpe-mcp.gpg
+```
+## 安裝 Agentless Management Service
+```bash
+apt update
+apt install amsd
+```
+<Callout type="info">
+新版本可能為 `hpe-ams`
+</Callout>
+## 確認 AMS 狀態
+```bash
+systemctl status amsd
+```
+<Callout type="info">
+可能需要 Reset iLO 才能看到 AMS 狀態
+</Callout>
