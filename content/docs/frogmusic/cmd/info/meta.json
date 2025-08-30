@@ -7,5 +7,6 @@
       "node",
       "ping"
     ],
+    "icon": "Info",
     "defaultOpen": false
 }

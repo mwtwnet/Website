@@ -6,22 +6,25 @@ import Footer from '@/components/Footer';
 import { footer } from 'config';
 
 export default function Layout({ children }: { children: ReactNode }) {
-  return <HomeLayout {...baseOptions}>
-    {children}
-  </HomeLayout>;
+  return (
+    <HomeLayout {...baseOptions}>
+      {children}
+      <Footer categories={footer} />
+    </HomeLayout>
+  );
 }
 
 export function generateMetadata(): Metadata {
-    return {
+  return {
+    title: {
+      template: "%s - 星球日記 | 多元世界團隊",
+      default: "星球日記 | 多元世界團隊",
+    },
+    openGraph: {
       title: {
         template: "%s - 星球日記 | 多元世界團隊",
         default: "星球日記 | 多元世界團隊",
-      },
-      openGraph: {
-        title: {
-          template: "%s - 星球日記 | 多元世界團隊",
-          default: "星球日記 | 多元世界團隊",
-        }
       }
     }
+  }
 }

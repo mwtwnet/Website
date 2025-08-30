@@ -3,5 +3,6 @@
     "pages": [
       "..."
     ],
+    "icon": "EthernetPort",
     "defaultOpen": false
 }

@@ -24,8 +24,8 @@ export default async function Page(props: {
   return (
     <DocsPage toc={page.data.toc} full={page.data.full} footer={{
       component: (
-        <p className="mt-2 text-xs text-muted-foreground text-center mb-4 text-gray-500">
-          Copyright © 2022 ~ {new Date(Date.now()).getFullYear() + 1} 多元世界團隊. All Rights Reserved
+        <p className="mt-2 text-xs text-muted-foreground text-center mb-4">
+          Copyright © 2022 ~ {new Date(Date.now()).getFullYear()} 多元世界團隊. All Rights Reserved
         </p>
       )
     }}>

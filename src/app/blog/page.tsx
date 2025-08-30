@@ -10,9 +10,9 @@ export default function Page(): React.ReactElement {
   );
 
   return (
-    <main className="container max-sm:px-0 md:pb-6 rounded-lg">
+    <main className="container my-6 max-sm:px-0 md:pb-6 rounded-lg">
       <div
-        className="h-[300px] p-8 md:h-[400px] md:p-12 background-cover background-norepeat"
+        className="h-[300px] p-8 md:h-[400px] md:px-12 background-cover background-norepeat"
         style={{
             background: "url(https://wallup.net/wp-content/uploads/2016/01/99936-spaceship-space_station-science_fiction.jpg)"
         }}

@@ -1,6 +1,7 @@
 import { TooltipProvider } from '@/components/ui/tooltip';
 import './global.css';
 
+import ProgressProvider from '@/components/progress';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { I18nProvider } from 'fumadocs-ui/i18n';
@@ -24,41 +25,43 @@ export default function Layout({ children }: { children: ReactNode }) {
             enabled: true,
             defaultTheme: 'dark'
           }}
-          search={{
-            options: {
-              tags: [
-                { 
-                  name: "星球文件",
-                  value: 'doc'
-                },
-                {
-                  name: "星球日記",
-                  value: 'blog'
-                }
-              ],
-              defaultTag: 'doc'
-            }
-          }}
+          // search={{
+          //   options: {
+          //     tags: [
+          //       { 
+          //         name: "星球文件",
+          //         value: 'doc'
+          //       },
+          //       {
+          //         name: "星球日記",
+          //         value: 'blog'
+          //       }
+          //     ],
+          //     defaultTag: 'doc'
+          //   }
+          // }}
         >
-          <I18nProvider
-            locale='zh-TW'
-            translations={{
-              search: '搜索網站',
-              searchNoResult: '沒有找到資料',
-              toc: '目錄',
-              tocNoHeadings: '沒有找到目錄',
-              chooseTheme: '選擇主題',
-              lastUpdate: '最後更新',
-              chooseLanguage: '選擇語言',
-              nextPage: '下一頁',
-              previousPage: '上一頁',
-              editOnGithub: '在 Github 上編輯',
-            }} 
-          >
-            <TooltipProvider>
-              {children}
-            </TooltipProvider>
-          </I18nProvider>
+          <ProgressProvider >
+            <I18nProvider
+              locale='zh-TW'
+              translations={{
+                search: '搜索網站',
+                searchNoResult: '沒有找到資料',
+                toc: '目錄',
+                tocNoHeadings: '沒有找到目錄',
+                chooseTheme: '選擇主題',
+                lastUpdate: '最後更新',
+                chooseLanguage: '選擇語言',
+                nextPage: '下一頁',
+                previousPage: '上一頁',
+                editOnGithub: '在 Github 上編輯',
+              }} 
+            >
+              <TooltipProvider>
+                {children}
+              </TooltipProvider>
+            </I18nProvider>
+          </ProgressProvider>
         </RootProvider>
       </body>
     </html>
