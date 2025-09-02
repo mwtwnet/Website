@@ -66,7 +66,18 @@ export async function GET(request: Request) {
         }
 
         // If verification passed, fetch the data
-        const response = await fetch('http://localhost:3000/api/shards')
+        const response = await fetch('http://localhost:3000/api/shards').catch((error) => {
+            // console.error('Error fetching shard data:', error)
+            return null
+        })
+
+        if (!response) {
+            return NextResponse.json(
+                { error: 'Failed to fetch shard data' },
+                { status: 500 }
+            )
+        }
+
         const data = await response.json()
         
         return NextResponse.json(data)

@@ -101,6 +101,7 @@ export default function FrogMusicStatusPage() {
   const [isVerified, setIsVerified] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const turnstileRef = useRef<any>(null)
 
   // Handle hydration and restore cookie state
@@ -151,6 +152,7 @@ export default function FrogMusicStatusPage() {
       if (!isVerified || !turnstileToken) return
       
       try {
+        setError(null) // Clear any previous errors
         const response = await fetch(`/api/status/frogmusic?cf-turnstile-response=${encodeURIComponent(turnstileToken)}`)
         
         if (response.status === 401 || response.status === 403) {
@@ -168,12 +170,24 @@ export default function FrogMusicStatusPage() {
           }
           return
         }
+
+        if (response.status === 500) {
+          setError('無法找到狀態數據，服務器暫時不可用。請稍後再試。')
+          return
+        }
+
+        if (!response.ok) {
+          setError(`無法加載狀態數據（錯誤 ${response.status}）。請稍後再試。`)
+          return
+        }
         
         const data = await response.json()
         setStatusData(data)
         setLastUpdated(new Date())
+        setError(null) // Clear error on successful load
       } catch (error) {
         console.error('Failed to load status data:', error)
+        setError('網絡連接錯誤，無法獲取狀態數據。請檢查您的網絡連接並重試。')
       }
     }
 
@@ -227,7 +241,31 @@ export default function FrogMusicStatusPage() {
       <div className="min-h-screen text-white p-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold mb-2">系統: 青蛙音樂</h1>
-          <p className="text-gray-300 mb-8">正在加載狀態數據...</p>
+          {error ? (
+            <div className="bg-red-900/20 border border-red-500 rounded-lg p-4 my-8">
+              <div className="flex items-center">
+                <div className="text-red-400 mr-3">⚠️</div>
+                <div>
+                  <h3 className="text-red-400 font-semibold mb-1">載入錯誤</h3>
+                  <p className="text-red-300">{error}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setError(null)
+                  // Trigger a manual refresh
+                  if (isVerified && turnstileToken) {
+                    window.location.reload()
+                  }
+                }}
+                className="cursor-pointer mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+              >
+                重試
+              </button>
+            </div>
+          ) : (
+            <p className="text-gray-300 mb-8">正在加載狀態數據...</p>
+          )}
         </div>
       </div>
     )
@@ -276,6 +314,7 @@ export default function FrogMusicStatusPage() {
               setIsVerified(false)
               setTurnstileToken(null)
               setStatusData(null)
+              setError(null) // Clear any errors when re-verifying
               // Clear cookies when manually re-verifying
               deleteCookie('turnstile-verified')
               deleteCookie('turnstile-token')
