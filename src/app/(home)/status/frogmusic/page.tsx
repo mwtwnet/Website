@@ -206,7 +206,7 @@ export default function FrogMusicStatusPage() {
     return (
       <div className="min-h-screen text-white p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">系統: 青蛙音樂</h1>
+          <h1 className="text-4xl font-bold mb-2">青蛙音樂</h1>
           <p className="text-gray-300 mb-8">請完成驗證以查看系統狀態</p>
           
           <div className="max-w-md mx-auto">
@@ -240,7 +240,7 @@ export default function FrogMusicStatusPage() {
     return (
       <div className="min-h-screen text-white p-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-2">系統: 青蛙音樂</h1>
+          <h1 className="text-4xl font-bold mb-2">青蛙音樂</h1>
           {error ? (
             <div className="bg-red-900/20 border border-red-500 rounded-lg p-4 my-8">
               <div className="flex items-center">
@@ -275,9 +275,9 @@ export default function FrogMusicStatusPage() {
   const totalMembers = statusData.clusters.reduce((sum, cluster) => sum + cluster.totalMembers, 0)
   const totalShards = statusData.clusters.reduce((sum, cluster) => sum + cluster.shards, 0)
   const operationalShards = statusData.clusters.flatMap(cluster => cluster.perShardData).filter(shard => shard.status === 0).length
-  const problemClusters = statusData.clusters.filter(cluster => 
+  const problemShards = statusData.clusters.filter(cluster => 
     cluster.perShardData.some(shard => shard.status !== 0)
-  ).length
+  ).map(cluster => cluster.perShardData.filter(shard => shard.status !== 0)).flat()
 
   // Find which shard contains the searched guild ID
   const findShardWithGuild = (guildId: string) => {
@@ -304,7 +304,7 @@ export default function FrogMusicStatusPage() {
 
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">系統: 青蛙音樂</h1>
+            <h1 className="text-4xl font-bold mb-2">青蛙音樂</h1>
             <p className="text-gray-300">
                 {totalGuilds} 個公會, {totalMembers.toLocaleString()} 名成員, {totalShards} 個分片
             </p>
@@ -337,9 +337,9 @@ export default function FrogMusicStatusPage() {
             <span className="text-gray-400"> 分片</span>
           </div>
           
-          {problemClusters > 0 && (
+          {problemShards.length > 0 && (
             <div className="text-gray-400">
-              {problemClusters} 個分片有問題。
+              {problemShards.length} 個分片有問題。
             </div>
           )}
         </div>
@@ -382,9 +382,10 @@ export default function FrogMusicStatusPage() {
         </div>
 
         {/* Cluster Grid */}
-        <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {statusData.clusters.map((cluster) => {
-            return (
+        {statusData.clusters.length === 1 ? (
+          // Single cluster layout - similar style to multiple but full width
+          <div className="mb-8">
+            {statusData.clusters.map((cluster) => (
               <div key={cluster.id} className="mb-6">
                 <h2 className="text-xl font-bold mb-2">Cluster {cluster.id}</h2>
                 {/* Cluster Info */}
@@ -395,8 +396,8 @@ export default function FrogMusicStatusPage() {
                     <li>Uptime: {cluster.uptime ? formatUptime(cluster.uptime) : 'N/A'}</li>
                 </ul>
 
-                {/* Shard Grid for this cluster */}
-                <div className="grid grid-cols-6 lg:grid-cols-8 gap-1 max-w-full">
+                {/* Shard Grid for single cluster - more columns since we have more space */}
+                <div className="grid grid-cols-8 sm:grid-cols-12 md:grid-cols-16 lg:grid-cols-20 xl:grid-cols-24 gap-1 max-w-full">
                   {cluster.perShardData.map((shard) => {
                     const status = getShardStatus(shard.status)
                     const isHighlighted = foundShard && foundShard.clusterId === cluster.id && foundShard.shardId === shard.shardId
@@ -425,9 +426,57 @@ export default function FrogMusicStatusPage() {
                   })}
                 </div>
               </div>
-            )
-          })}
-        </div>
+            ))}
+          </div>
+        ) : (
+          // Multiple clusters layout - grid layout
+          <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {statusData.clusters.map((cluster) => {
+              return (
+                <div key={cluster.id} className="mb-6">
+                  <h2 className="text-xl font-bold mb-2">Cluster {cluster.id}</h2>
+                  {/* Cluster Info */}
+                  <ul className="text-sm text-gray-400 mb-3 list-inside space-y-1">
+                      <li>Shards: {cluster.shardIds[0]} - {cluster.shardIds[cluster.shardIds.length - 1]}</li>
+                      <li>{cluster.totalGuilds} guilds</li>
+                      <li>{cluster.totalMembers.toLocaleString()} members</li>
+                      <li>Uptime: {cluster.uptime ? formatUptime(cluster.uptime) : 'N/A'}</li>
+                  </ul>
+
+                  {/* Shard Grid for this cluster */}
+                  <div className="grid grid-cols-6 lg:grid-cols-8 gap-1 max-w-full">
+                    {cluster.perShardData.map((shard) => {
+                      const status = getShardStatus(shard.status)
+                      const isHighlighted = foundShard && foundShard.clusterId === cluster.id && foundShard.shardId === shard.shardId
+                      
+                      return (
+                        <div
+                          key={shard.shardId}
+                          className={cn(
+                            "w-10 h-10 flex items-center justify-center text-xs font-medium cursor-pointer transition-all hover:scale-110",
+                            "border",
+                            isHighlighted 
+                              ? "border-blue-400 bg-blue-600 text-white ring-2 ring-blue-400 ring-opacity-75" 
+                              : "border-gray-600",
+                            !isHighlighted && (
+                              shard.status === 0 ? "bg-gray-800 text-green-400" : 
+                              shard.status === 7 ? "bg-gray-800 text-red-400" :
+                              "bg-gray-800 text-yellow-400"
+                            )
+                          )}
+                          onClick={() => setSelectedCluster(cluster)}
+                          title={`Shard ${shard.shardId}: ${status.text} - ${shard.ping === -1 ? 'N/A' : shard.ping + 'ms'}${isHighlighted ? ' - Contains searched Guild ID' : ''}`}
+                        >
+                          {shard.shardId}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
         {/* Cluster Details Popup */}
         {selectedCluster && (
