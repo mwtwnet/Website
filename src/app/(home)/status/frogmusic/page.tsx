@@ -94,20 +94,30 @@ export default function FrogMusicStatusPage() {
   const [isVerified, setIsVerified] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const turnstileRef = useRef<any>(null)
 
   // Handle hydration and restore session storage state
   useEffect(() => {
-    setIsHydrated(true)
-    // Check session storage after hydration to restore verification state
-    const storedVerified = getSessionItem('turnstile-verified') === 'true'
-    const storedToken = getSessionItem('turnstile-token')
-    
-    if (storedVerified && storedToken) {
-      setIsVerified(true)
-      setTurnstileToken(storedToken)
+    const checkSessionStorage = () => {
+      try {
+        const storedVerified = getSessionItem('turnstile-verified') === 'true'
+        const storedToken = getSessionItem('turnstile-token')
+        
+        if (storedVerified && storedToken) {
+          setIsVerified(true)
+          setTurnstileToken(storedToken)
+        }
+      } catch (error) {
+        console.warn('Session storage not available:', error)
+      } finally {
+        setIsHydrated(true)
+        setIsCheckingSession(false)
+      }
     }
+
+    checkSessionStorage()
   }, [])
 
   // Turnstile handlers
@@ -193,6 +203,18 @@ export default function FrogMusicStatusPage() {
       return () => clearInterval(interval)
     }
   }, [isVerified, turnstileToken])
+
+  // Don't show sensitive data until we've checked session storage
+  if (isCheckingSession) {
+    return (
+      <div className="min-h-screen text-white p-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold mb-2">青蛙音樂</h1>
+          <p className="text-gray-300 mb-8">正在檢查驗證狀態...</p>
+        </div>
+      </div>
+    )
+  }
 
   // Don't show sensitive data until verified
   if (!isVerified) {
@@ -308,6 +330,7 @@ export default function FrogMusicStatusPage() {
               setTurnstileToken(null)
               setStatusData(null)
               setError(null) // Clear any errors when re-verifying
+              setIsCheckingSession(true)
               // Clear session storage when manually re-verifying
               removeSessionItem('turnstile-verified')
               removeSessionItem('turnstile-token')
@@ -315,6 +338,7 @@ export default function FrogMusicStatusPage() {
               if (turnstileRef.current) {
                 turnstileRef.current.reset()
               }
+              setIsCheckingSession(false)
             }}
             className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
           >
