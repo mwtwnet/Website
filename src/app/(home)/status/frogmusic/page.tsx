@@ -5,27 +5,20 @@ import { cn } from '@/lib/utils'
 import { Callout } from 'fumadocs-ui/components/callout'
 import { Turnstile } from '@marsidev/react-turnstile'
 
-// Cookie utility functions
-const setCookie = (name: string, value: string, hours: number = 24) => {
-  const expires = new Date()
-  expires.setTime(expires.getTime() + hours * 60 * 60 * 1000)
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Strict`
+// Session storage utility functions
+const setSessionItem = (name: string, value: string) => {
+  if (typeof window === 'undefined') return
+  sessionStorage.setItem(name, value)
 }
 
-const getCookie = (name: string): string | null => {
-  if (typeof document === 'undefined') return null
-  const nameEQ = name + '='
-  const ca = document.cookie.split(';')
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i]
-    while (c.charAt(0) === ' ') c = c.substring(1, c.length)
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length)
-  }
-  return null
+const getSessionItem = (name: string): string | null => {
+  if (typeof window === 'undefined') return null
+  return sessionStorage.getItem(name)
 }
 
-const deleteCookie = (name: string) => {
-  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`
+const removeSessionItem = (name: string) => {
+  if (typeof window === 'undefined') return
+  sessionStorage.removeItem(name)
 }
 
 interface ShardData {
@@ -104,12 +97,12 @@ export default function FrogMusicStatusPage() {
   const [error, setError] = useState<string | null>(null)
   const turnstileRef = useRef<any>(null)
 
-  // Handle hydration and restore cookie state
+  // Handle hydration and restore session storage state
   useEffect(() => {
     setIsHydrated(true)
-    // Check cookies after hydration to restore verification state
-    const storedVerified = getCookie('turnstile-verified') === 'true'
-    const storedToken = getCookie('turnstile-token')
+    // Check session storage after hydration to restore verification state
+    const storedVerified = getSessionItem('turnstile-verified') === 'true'
+    const storedToken = getSessionItem('turnstile-token')
     
     if (storedVerified && storedToken) {
       setIsVerified(true)
@@ -121,18 +114,18 @@ export default function FrogMusicStatusPage() {
   const handleTurnstileSuccess = (token: string) => {
     setTurnstileToken(token)
     setIsVerified(true)
-    // Store verification state in cookies (24 hours)
-    setCookie('turnstile-verified', 'true', 24)
-    setCookie('turnstile-token', token, 24)
+    // Store verification state in session storage
+    setSessionItem('turnstile-verified', 'true')
+    setSessionItem('turnstile-token', token)
   }
 
   const handleTurnstileError = () => {
     setIsVerified(false)
     setTurnstileToken(null)
-    // Clear cookies on error
+    // Clear session storage on error
     if (isHydrated) {
-      deleteCookie('turnstile-verified')
-      deleteCookie('turnstile-token')
+      removeSessionItem('turnstile-verified')
+      removeSessionItem('turnstile-token')
     }
   }
 
@@ -140,10 +133,10 @@ export default function FrogMusicStatusPage() {
     setIsVerified(false)
     setTurnstileToken(null)
     setStatusData(null) // Clear status data when token expires
-    // Clear cookies on expire
+    // Clear session storage on expire
     if (isHydrated) {
-      deleteCookie('turnstile-verified')
-      deleteCookie('turnstile-token')
+      removeSessionItem('turnstile-verified')
+      removeSessionItem('turnstile-token')
     }
   }
 
@@ -159,10 +152,10 @@ export default function FrogMusicStatusPage() {
           // Token invalid or expired, require re-verification
           setIsVerified(false)
           setTurnstileToken(null)
-          // Clear cookies when token is invalid
+          // Clear session storage when token is invalid
           if (isHydrated) {
-            deleteCookie('turnstile-verified')
-            deleteCookie('turnstile-token')
+            removeSessionItem('turnstile-verified')
+            removeSessionItem('turnstile-token')
           }
           // Reset the Turnstile widget
           if (turnstileRef.current) {
@@ -315,9 +308,9 @@ export default function FrogMusicStatusPage() {
               setTurnstileToken(null)
               setStatusData(null)
               setError(null) // Clear any errors when re-verifying
-              // Clear cookies when manually re-verifying
-              deleteCookie('turnstile-verified')
-              deleteCookie('turnstile-token')
+              // Clear session storage when manually re-verifying
+              removeSessionItem('turnstile-verified')
+              removeSessionItem('turnstile-token')
               // Reset the Turnstile widget when manually re-verifying
               if (turnstileRef.current) {
                 turnstileRef.current.reset()

@@ -66,7 +66,7 @@ export async function GET(request: Request) {
         }
 
         // If verification passed, fetch the data
-        const dataUrl = skipVerification ? "http://localhost:20000/api/shards" : "http://192.168.28.54:20000/api/shards"
+        const dataUrl = skipVerification ? "http://192.168.28.54:20000/api/shards" : "http://192.168.28.54:20000/api/shards"
 
         const response = await fetch(dataUrl).catch((error) => {
             // console.error('Error fetching shard data:', error)
