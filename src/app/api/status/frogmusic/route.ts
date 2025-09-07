@@ -3,17 +3,17 @@ import path from 'path'
 import { readFileSync } from 'fs'
 
 // Verify Turnstile token
-async function verifyTurnstileToken(token: string): Promise<boolean> {
+async function verifyTurnstileToken(token: string): Promise<{ success: boolean; error?: string }> {
     const secretKey = process.env.TURNSTILE_SECRET_KEY
     
     if (!secretKey) {
         console.warn('TURNSTILE_SECRET_KEY not configured, skipping verification')
-        return true // Allow in development if not configured
+        return { success: true } // Allow in development if not configured
     }
 
     if (!token || token.trim() === '') {
         console.warn('Empty or invalid token provided')
-        return false
+        return { success: false, error: 'Empty token' }
     }
 
     try {
@@ -31,7 +31,7 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
 
         if (!response.ok) {
             console.error('Turnstile API request failed:', response.status, response.statusText)
-            return false
+            return { success: false, error: 'API request failed' }
         }
 
         const data = await response.json()
@@ -39,14 +39,15 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
         
         if (data.success === true) {
             console.log('Turnstile verification successful')
-            return true
+            return { success: true }
         } else {
-            console.warn('Turnstile verification failed:', data['error-codes'] || 'Unknown error')
-            return false
+            const errorCodes = data['error-codes'] || ['Unknown error']
+            console.warn('Turnstile verification failed:', errorCodes)
+            return { success: false, error: errorCodes.join(', ') }
         }
     } catch (error) {
         console.error('Turnstile verification error:', error)
-        return false
+        return { success: false, error: 'Network error' }
     }
 }
 
@@ -77,12 +78,21 @@ export async function GET(request: Request) {
                 )
             }
             
-            const isValid = await verifyTurnstileToken(turnstileToken)
+            const verificationResult = await verifyTurnstileToken(turnstileToken)
 
-            if (!isValid) {
-                console.warn('Turnstile token verification failed')
+            if (!verificationResult.success) {
+                console.warn('Turnstile token verification failed:', verificationResult.error)
+                
+                // Return specific error codes for better client-side handling
+                if (verificationResult.error?.includes('timeout-or-duplicate')) {
+                    return NextResponse.json(
+                        { error: 'Token expired or already used. Please verify again.', code: 'TOKEN_EXPIRED' },
+                        { status: 403 }
+                    )
+                }
+                
                 return NextResponse.json(
-                    { error: 'Invalid Turnstile token' },
+                    { error: 'Invalid Turnstile token', details: verificationResult.error },
                     { status: 403 }
                 )
             }

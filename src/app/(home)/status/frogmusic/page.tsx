@@ -132,15 +132,25 @@ export default function FrogMusicStatusPage() {
         
         if (typeof window !== 'undefined' && window.sessionStorage) {
           const storedVerified = getSessionItem('turnstile-verified')
-          const storedToken = getSessionItem('turnstile-token')
+          const storedTimestamp = getSessionItem('turnstile-timestamp')
           
           console.log('Stored verified:', storedVerified)
-          console.log('Stored token:', storedToken ? 'present' : 'not found')
+          console.log('Stored timestamp:', storedTimestamp)
           
-          if (storedVerified === 'true' && storedToken) {
-            console.log('Restoring verification state from session storage')
-            setIsVerified(true)
-            setTurnstileToken(storedToken)
+          // Check if verification is still valid (within 10 minutes)
+          if (storedVerified === 'true' && storedTimestamp) {
+            const verificationAge = Date.now() - parseInt(storedTimestamp)
+            const maxAge = 10 * 60 * 1000 // 10 minutes
+            
+            if (verificationAge < maxAge) {
+              console.log('Restoring verification state from session storage')
+              setIsVerified(true)
+              // Don't restore the token - it's expired, we'll need a new one
+            } else {
+              console.log('Stored verification expired, clearing session storage')
+              removeSessionItem('turnstile-verified')
+              removeSessionItem('turnstile-timestamp')
+            }
           } else {
             console.log('No valid session data found')
           }
@@ -165,9 +175,9 @@ export default function FrogMusicStatusPage() {
     console.log('Turnstile success, storing verification state')
     setTurnstileToken(token)
     setIsVerified(true)
-    // Store verification state in session storage
+    // Only store verification state, not the token (tokens are single-use)
     setSessionItem('turnstile-verified', 'true')
-    setSessionItem('turnstile-token', token)
+    setSessionItem('turnstile-timestamp', Date.now().toString())
   }
 
   const handleTurnstileError = () => {
@@ -176,7 +186,7 @@ export default function FrogMusicStatusPage() {
     // Clear session storage on error
     if (isHydrated) {
       removeSessionItem('turnstile-verified')
-      removeSessionItem('turnstile-token')
+      removeSessionItem('turnstile-timestamp')
     }
   }
 
@@ -187,13 +197,19 @@ export default function FrogMusicStatusPage() {
     // Clear session storage on expire
     if (isHydrated) {
       removeSessionItem('turnstile-verified')
-      removeSessionItem('turnstile-token')
+      removeSessionItem('turnstile-timestamp')
     }
   }
 
   useEffect(() => {
     const loadStatusData = async () => {
-      if (!isVerified || !turnstileToken) return
+      if (!isVerified) return
+      
+      // If we don't have a fresh token, we need to get one first
+      if (!turnstileToken) {
+        console.log('No token available, need fresh verification')
+        return
+      }
       
       try {
         setError(null) // Clear any previous errors
@@ -201,12 +217,13 @@ export default function FrogMusicStatusPage() {
         
         if (response.status === 401 || response.status === 403) {
           // Token invalid or expired, require re-verification
+          console.log('Token invalid, clearing verification state')
           setIsVerified(false)
           setTurnstileToken(null)
           // Clear session storage when token is invalid
           if (isHydrated) {
             removeSessionItem('turnstile-verified')
-            removeSessionItem('turnstile-token')
+            removeSessionItem('turnstile-timestamp')
           }
           // Reset the Turnstile widget
           if (turnstileRef.current) {
@@ -229,19 +246,26 @@ export default function FrogMusicStatusPage() {
         setStatusData(data)
         setLastUpdated(new Date())
         setError(null) // Clear error on successful load
+        
+        // After successful API call, clear the token (it's been used)
+        console.log('API call successful, clearing used token')
+        setTurnstileToken(null)
       } catch (error) {
         console.error('Failed to load status data:', error)
         setError('網絡連接錯誤，無法獲取狀態數據。請檢查您的網絡連接並重試。')
       }
     }
 
-    // Load initial data only when verified
+    // Load initial data only when verified and we have a token
     if (isVerified && turnstileToken) {
       loadStatusData()
-      
-      // Auto-refresh every 15 seconds
-      const interval = setInterval(loadStatusData, 15000)
-      return () => clearInterval(interval)
+    }
+    
+    // For auto-refresh, we need to handle it differently since tokens are single-use
+    if (isVerified && !turnstileToken && statusData) {
+      // We have data but no token for refresh - need to get a new token
+      console.log('Auto-refresh needs new token')
+      // Don't auto-refresh - user will need to manually refresh or get new token
     }
   }, [isVerified, turnstileToken])
 
@@ -354,7 +378,10 @@ export default function FrogMusicStatusPage() {
     <div className="min-h-screen text-white p-8">
       <div className="max-w-7xl mx-auto">
         <Callout className='my-2 mb-8'>
-            系統狀態於 {lastUpdated.toLocaleTimeString()} 更新。數據每 15 秒自動刷新一次。
+            系統狀態於 {lastUpdated.toLocaleTimeString()} 更新。
+            {!turnstileToken && statusData && (
+              <span className="text-yellow-400"> 需要新的驗證令牌才能刷新數據。</span>
+            )}
             <span className="float-right text-green-400">✓ 已驗證</span>
         </Callout>
 
@@ -365,26 +392,44 @@ export default function FrogMusicStatusPage() {
                 {totalGuilds} 個公會, {totalMembers.toLocaleString()} 名成員, {totalShards} 個分片
             </p>
           </div>
-          <button
-            onClick={() => {
-              setIsVerified(false)
-              setTurnstileToken(null)
-              setStatusData(null)
-              setError(null) // Clear any errors when re-verifying
-              setIsCheckingSession(true)
-              // Clear session storage when manually re-verifying
-              removeSessionItem('turnstile-verified')
-              removeSessionItem('turnstile-token')
-              // Reset the Turnstile widget when manually re-verifying
-              if (turnstileRef.current) {
-                turnstileRef.current.reset()
-              }
-              setIsCheckingSession(false)
-            }}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
-          >
-            重新驗證
-          </button>
+          <div className="flex gap-2">
+            {!turnstileToken && statusData && (
+              <div className="text-center">
+                <p className="text-sm text-yellow-400 mb-2">需要新令牌來刷新數據</p>
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                  onSuccess={handleTurnstileSuccess}
+                  onError={handleTurnstileError}
+                  onExpire={handleTurnstileExpire}
+                  options={{
+                    action: 'refresh-data',
+                    cData: 'frogmusic-refresh'
+                  }}
+                />
+              </div>
+            )}
+            <button
+              onClick={() => {
+                setIsVerified(false)
+                setTurnstileToken(null)
+                setStatusData(null)
+                setError(null) // Clear any errors when re-verifying
+                setIsCheckingSession(true)
+                // Clear session storage when manually re-verifying
+                removeSessionItem('turnstile-verified')
+                removeSessionItem('turnstile-timestamp')
+                // Reset the Turnstile widget when manually re-verifying
+                if (turnstileRef.current) {
+                  turnstileRef.current.reset()
+                }
+                setIsCheckingSession(false)
+              }}
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+            >
+              重新驗證
+            </button>
+          </div>
         </div>
 
         <div className="mb-8">
