@@ -5,20 +5,43 @@ import { cn } from '@/lib/utils'
 import { Callout } from 'fumadocs-ui/components/callout'
 import { Turnstile } from '@marsidev/react-turnstile'
 
+export const dynamic = 'force-dynamic'
+// export const revalidate = false
+
 // Session storage utility functions
 const setSessionItem = (name: string, value: string) => {
-  if (typeof window === 'undefined') return
-  sessionStorage.setItem(name, value)
+  try {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      console.log(`Setting session item: ${name} = ${value}`)
+      sessionStorage.setItem(name, value)
+    }
+  } catch (error) {
+    console.warn('Failed to set session item:', error)
+  }
 }
 
 const getSessionItem = (name: string): string | null => {
-  if (typeof window === 'undefined') return null
-  return sessionStorage.getItem(name)
+  try {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      const value = sessionStorage.getItem(name)
+      console.log(`Getting session item: ${name} = ${value}`)
+      return value
+    }
+  } catch (error) {
+    console.warn('Failed to get session item:', error)
+  }
+  return null
 }
 
 const removeSessionItem = (name: string) => {
-  if (typeof window === 'undefined') return
-  sessionStorage.removeItem(name)
+  try {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      console.log(`Removing session item: ${name}`)
+      sessionStorage.removeItem(name)
+    }
+  } catch (error) {
+    console.warn('Failed to remove session item:', error)
+  }
 }
 
 interface ShardData {
@@ -102,26 +125,44 @@ export default function FrogMusicStatusPage() {
   useEffect(() => {
     const checkSessionStorage = () => {
       try {
-        const storedVerified = getSessionItem('turnstile-verified') === 'true'
-        const storedToken = getSessionItem('turnstile-token')
+        // Add debugging
+        console.log('Checking session storage...')
+        console.log('Window available:', typeof window !== 'undefined')
+        console.log('SessionStorage available:', typeof window !== 'undefined' && !!window.sessionStorage)
         
-        if (storedVerified && storedToken) {
-          setIsVerified(true)
-          setTurnstileToken(storedToken)
+        if (typeof window !== 'undefined' && window.sessionStorage) {
+          const storedVerified = getSessionItem('turnstile-verified')
+          const storedToken = getSessionItem('turnstile-token')
+          
+          console.log('Stored verified:', storedVerified)
+          console.log('Stored token:', storedToken ? 'present' : 'not found')
+          
+          if (storedVerified === 'true' && storedToken) {
+            console.log('Restoring verification state from session storage')
+            setIsVerified(true)
+            setTurnstileToken(storedToken)
+          } else {
+            console.log('No valid session data found')
+          }
+        } else {
+          console.warn('Session storage not available')
         }
       } catch (error) {
-        console.warn('Session storage not available:', error)
+        console.warn('Session storage error:', error)
       } finally {
         setIsHydrated(true)
         setIsCheckingSession(false)
       }
     }
 
-    checkSessionStorage()
+    // Add a small delay to ensure the window is fully loaded
+    const timer = setTimeout(checkSessionStorage, 100)
+    return () => clearTimeout(timer)
   }, [])
 
   // Turnstile handlers
   const handleTurnstileSuccess = (token: string) => {
+    console.log('Turnstile success, storing verification state')
     setTurnstileToken(token)
     setIsVerified(true)
     // Store verification state in session storage
