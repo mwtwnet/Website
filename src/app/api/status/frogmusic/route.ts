@@ -103,7 +103,7 @@ export async function GET(request: Request) {
         }
 
         // If verification passed, fetch the data
-        const dataUrl = "http://192.168.28.54:20000/api/shards"
+        const dataUrl = "http://172.16.27.120:20000/api/shards"
         console.log('Fetching data from:', dataUrl)
 
         const response = await fetch(dataUrl, {
