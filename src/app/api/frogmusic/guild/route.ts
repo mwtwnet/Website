@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
 
     const client = await createClient({
-        url: 'redis://192.168.28.55:6379/0'
+        url: 'redis://172.16.27.114:6379/0'
     }).on('error', err => console.log('Redis Client Error', err)).connect();
     const value = await client.get(key);
     const d = JSON.parse(value || '{}');
