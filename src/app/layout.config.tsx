@@ -43,11 +43,5 @@ export const baseOptions: BaseLayoutProps = {
       text: "星球聚集地",
       external: true,
     },
-    {
-      icon: <FontAwesomeIcon icon={faDiscord} />,
-      url: "https://dcs.tw",
-      text: "DCS.tw",
-      external: true,
-    },
   ],
 };

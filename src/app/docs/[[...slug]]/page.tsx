@@ -8,8 +8,6 @@ import {
 import { notFound } from 'next/navigation';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
-import Footer from '@/components/Footer';
-import { footer } from 'config';
 import { Metadata } from 'next';
 
 export default async function Page(props: {
@@ -25,10 +23,13 @@ export default async function Page(props: {
     <DocsPage toc={page.data.toc} full={page.data.full} footer={{
       component: (
         <p className="mt-2 text-xs text-muted-foreground text-center mb-4">
-          Copyright © 2022 ~ {new Date(Date.now()).getFullYear()} 多元世界團隊. All Rights Reserved
+          Copyright © 2022 ~ {new Date(Date.now()).getFullYear()} 多元世界團隊 All Rights Reserved
         </p>
-      )
-    }}>
+      )}}
+      tableOfContent={{
+        style: 'clerk'
+      }}
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>

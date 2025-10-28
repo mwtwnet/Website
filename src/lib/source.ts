@@ -1,12 +1,12 @@
 import { docs, blog } from '@/.source';
 import { loader } from 'fumadocs-core/source';
-import { createMDXSource } from 'fumadocs-mdx';
 import { createElement } from 'react';
 // Lucide
 import { icons as lucideIcons } from 'lucide-react';
 // MDI
 import * as mdiIcons from '@mdi/js';
 import IconElement from '@mdi/react';
+import { createMDXSource } from 'fumadocs-mdx/runtime/next';
 
 const classIcon = ""
 

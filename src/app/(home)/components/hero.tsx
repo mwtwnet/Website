@@ -1,87 +1,94 @@
 "use client"
-import { Check } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import heroImg from '@public/assets/logo.png';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
     return (
-        <div className="container mx-auto px-4 py-8 lg:py-16">
-            <div className="flex flex-col-reverse lg:flex-row items-center min-h-[60vh] lg:min-h-[68vh]">
-                <div className="w-full lg:w-1/2 mb-8 lg:mb-0 lg:pr-8">
-                    <div className="max-w-2xl">
-                        <h1 className="text-3xl text-center lg:text-left sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight text-gray-800 dark:text-white mb-6">
-                            歡迎來到多元世界！
-                        </h1>
-                        <div className="space-y-4 text-center lg:text-left text-lg sm:text-xl lg:text-xl xl:text-2xl leading-relaxed text-gray-500 dark:text-gray-300 mb-8">
-                            <div className="flex items-start gap-3">
-                                <Check className="w-6 h-6 sm:w-8 sm:h-8 text-green-500 flex-shrink-0 mt-1" />
-                                <span>我們是一個團隊，致力於打造一個多元化聊天世界，以及各種機器人、軟體、網頁開發。</span>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <Check className="w-6 h-6 sm:w-8 sm:h-8 text-green-500 flex-shrink-0 mt-1" />
-                                <span>我們也歡迎不同的想法以及立場，並讓它們在這裡，擦出不一樣的火花</span>
-                            </div>
-                        </div>
+        <div className="relative min-h-screen flex items-center overflow-hidden bg-black">
+            {/* Animated background */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+            </div>
 
-                        <div className="space-y-4">
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                            >
-                                <motion.a
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    href="/discord"
-                                    target="_blank"
-                                    rel="noopener"
-                                    className="inline-block w-full sm:w-auto px-6 py-3 sm:px-7 sm:py-4 text-base sm:text-lg font-semibold text-center text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors">
-                                    加入我們的 Discord 吧！
-                                </motion.a>
-                            </motion.div>
+            <div className="container mx-auto px-4 py-20 lg:py-32 relative z-10">
+                <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-12 lg:gap-16">
+                    <div className="w-full lg:w-1/2 text-center lg:text-left">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full mb-6">
+                                <Sparkles className="w-4 h-4 text-blue-400" />
+                                <span className="text-sm font-semibold text-blue-400">歡迎來到多元世界</span>
+                            </div>
                             
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
+                                <span className="bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
+                                    創意 × 技術
+                                </span>
+                                <br />
+                                <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                                    打造你的想像
+                                </span>
+                            </h1>
+                            
+                            <p className="text-xl lg:text-2xl text-gray-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                開發 Discord Bot、網頁應用，把每個點子變成現實
+                            </p>
+
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <motion.a
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                href="/discord"
+                                target="_blank"
+                                rel="noopener"
+                                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-full text-lg shadow-lg shadow-[#5865F2]/50 hover:shadow-[#5865F2]/80 transition-all duration-300"
                             >
-                                <motion.a
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    href="https://dcs.tw"
-                                    target="_blank"
-                                    rel="noopener"
-                                    className="inline-block w-full sm:w-auto px-5 py-3 text-base sm:text-lg font-semibold text-center text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors">
-                                    來看看我們開發的 Discord 探索平台
-                                </motion.a>
-                            </motion.div>
+                                加入 Discord
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </motion.a>
                         </div>
+                        </motion.div>
                     </div>
-                </div>
                 
-                <div className="w-[180px] lg:w-1/2 flex justify-center mb-8">
-                    <motion.div
-                        animate={{
-                            y: [0, -10, 0],
-                        }}
-                        transition={{
-                            duration: 2,
-                            ease: "easeInOut",
-                            repeat: Infinity,
-                        }}
-                        className="w-full max-w-sm lg:max-w-md"
-                    >
-                        <Image
-                            src={heroImg}
-                            width="418"
-                            height="418"
-                            className="w-full h-auto object-cover"
-                            alt="Hero Illustration"
-                            loading="eager"
-                            placeholder="blur"
-                        />
-                    </motion.div>
+                    <div className="w-full lg:w-1/2 flex justify-center">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ 
+                                opacity: 1, 
+                                scale: 1,
+                                y: [0, -20, 0],
+                            }}
+                            transition={{
+                                opacity: { duration: 0.8 },
+                                scale: { duration: 0.8 },
+                                y: {
+                                    duration: 3,
+                                    ease: "easeInOut",
+                                    repeat: Infinity,
+                                }
+                            }}
+                            className="relative"
+                        >
+                            {/* Glow effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-3xl" />
+                            
+                            <Image
+                                src={heroImg}
+                                width="350"
+                                height="350"
+                                className="relative z-10 w-full h-auto max-w-xs lg:max-w-sm object-contain drop-shadow-2xl"
+                                alt="多元世界團隊 Logo"
+                                loading="eager"
+                                placeholder="blur"
+                                priority
+                            />
+                        </motion.div>
+                    </div>
                 </div>
             </div>
         </div>

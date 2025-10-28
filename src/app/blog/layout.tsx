@@ -7,7 +7,7 @@ import { footer } from 'config';
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <HomeLayout {...baseOptions}>
+    <HomeLayout {...baseOptions} themeSwitch={{enabled: false}}>
       {children}
       <Footer categories={footer} />
     </HomeLayout>

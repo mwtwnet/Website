@@ -14,6 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       tree={source.pageTree}
       {...baseOptions}
       links={[]}
+      themeSwitch={{enabled: false}}
       nav={{
         url: "/",
         title: (
