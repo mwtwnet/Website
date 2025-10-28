@@ -58,7 +58,7 @@ export default async function Page(props: {
           <div>
             <p className="mb-1 text-sm text-fd-muted-foreground">發佈時間</p>
             <p className="font-medium">
-              {new Date(page.data.date ?? page.file.name).toLocaleDateString("zh-tw", {
+              {new Date(page.data.date).toLocaleDateString("zh-tw", {
                 dateStyle: "full"
               })}
             </p>

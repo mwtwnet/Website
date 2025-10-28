@@ -18,14 +18,17 @@ export function Control({ url }: { url: string }): React.ReactElement {
 
   return (
     <Tooltip open={open} onOpenChange={setOpen}>
-      <TooltipTrigger
-        className={cn(
-          buttonVariants({ className: 'gap-2', variant: 'secondary' }),
-        )}
-        onClick={onClick}
-      >
-        <Share className="size-4" />
-        分享文章
+      <TooltipTrigger asChild>
+        <button
+          className={cn(
+            buttonVariants({ className: 'gap-2', variant: 'secondary' }),
+          )}
+          onClick={onClick}
+          type="button"
+        >
+          <Share className="size-4" />
+          分享文章
+        </button>
       </TooltipTrigger>
       <TooltipContent className="rounded-lg border bg-fd-popover p-2 text-sm text-fd-popover-foreground">
         已拷貝
