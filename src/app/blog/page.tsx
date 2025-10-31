@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 export default function Page(): React.ReactElement {
   const posts = [...blogS.getPages()].sort(
     (a, b) =>
-      new Date(b.data.date ?? b.file.name).getTime() -
-      new Date(a.data.date ?? a.file.name).getTime(),
+      new Date(b.data.date ?? 0).getTime() -
+      new Date(a.data.date ?? 0).getTime(),
   );
 
   return (
