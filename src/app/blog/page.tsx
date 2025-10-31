@@ -37,7 +37,7 @@ export default function Page(): React.ReactElement {
             </p>
 
             <p className="mt-auto pt-4 text-xs text-fd-muted-foreground">
-              {new Date(post.data.date ?? post.file.name).toLocaleDateString("zh-tw", {
+              {new Date(post.data.date ?? 0).toLocaleDateString("zh-tw", {
                 dateStyle: "full"
               })}
             </p>
