@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "next build & tsup & node dist-scripts/sync-content.mjs",
+    "build": "next build && pnpm run sync-content",
+    "sync-content": "tsup && node dist-scripts/sync-content.mjs",
     "dev": "next dev",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
