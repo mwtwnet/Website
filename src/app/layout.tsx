@@ -12,6 +12,8 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
+import SearchDialog from '@/components/search';
+
 export const i18n = defineI18n({
   defaultLanguage: 'zh',
   languages: ['zh'],
@@ -50,6 +52,9 @@ export default function Layout({ children }: { children: ReactNode }) {
             defaultTheme: 'dark'
           }}
           i18n={provider('zh')}
+          search={{
+            SearchDialog
+          }}
         >
           <ProgressProvider >
               <TooltipProvider>
