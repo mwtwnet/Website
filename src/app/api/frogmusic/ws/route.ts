@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { createClient } from 'redis';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; // Ensure the route is always dynamic
+export const revalidate = 0; // Disable caching for this route
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -40,7 +41,7 @@ export async function GET(req: NextRequest) {
 
                 controller.enqueue(encoder.encode(`data: ${JSON.stringify(output)}\n\n`));
 
-                // Poll Redis for updates every 2 seconds
+                // Poll Redis for updates every 5 seconds
                 interval = setInterval(async () => {
                     try {
                         if (!isConnected || !redisClient) return;
@@ -55,24 +56,31 @@ export async function GET(req: NextRequest) {
                         };
 
                         controller.enqueue(encoder.encode(`data: ${JSON.stringify(output)}\n\n`));
-                    } catch (error) {
+                    } catch (error: any) {
+                        // Ignore disconnect errors during cleanup
+                        if (error?.message?.includes('Disconnects client')) {
+                            return;
+                        }
                         console.error('Error fetching data:', error);
                     }
-                }, 2000);
+                }, 8000);
 
                 // Cleanup on close
                 req.signal.addEventListener('abort', async () => {
+                    // First, stop the interval to prevent further Redis calls
                     if (interval) {
                         clearInterval(interval);
                         interval = null;
                     }
                     
-                    if (redisClient && isConnected) {
+                    // Mark as disconnected before actually disconnecting
+                    isConnected = false;
+                    
+                    if (redisClient) {
                         try {
-                            isConnected = false;
                             await redisClient.disconnect();
                         } catch (err) {
-                            // console.error('Error disconnecting Redis client:', err);
+                            // Ignore disconnect errors during cleanup
                         }
                     }
                     

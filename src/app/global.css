@@ -18,3 +18,35 @@
 :root {
     --fd-layout-width: 100vw;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #000000;
+  overscroll-behavior-x: none;
+}
+
+/* Webkit scrollbar styling for better cross-browser support */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 0;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+*::-webkit-scrollbar-button:vertical:start:increment,
+*::-webkit-scrollbar-button:vertical:end:decrement,
+*::-webkit-scrollbar-button:horizontal:start:increment,
+*::-webkit-scrollbar-button:horizontal:end:decrement {
+  display: none;
+}

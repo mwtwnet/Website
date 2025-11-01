@@ -110,7 +110,11 @@ export default function Page() {
     }
 
     const fetchLyricsAsync = async (lyricsId?: number) => {
-        if (error === 'No song playing' || !guildId || !title || !author) return;
+        // For initial search, validate we have proper song data
+        if (!lyricsId && (!title || !author || title === '沒有正在播放的歌曲' || author === 'N/A')) {
+            console.log('Skipping lyrics fetch - no valid song data yet');
+            return;
+        }
         
         try {
             const data = await fetchLyricsFromAPI(title, author, lyricsId);
@@ -127,11 +131,11 @@ export default function Page() {
                         if (match) {
                             const minutes = parseInt(match[1]);
                             const seconds = parseFloat(match[2]);
-                            const timeInSeconds = minutes * 60 + seconds;
+                            const timeInSeconds = Math.round((minutes * 60 + seconds) * 1000); // Convert to milliseconds and round
                             return {
-                                content: [{ content: match[3].trim(), startsAt: timeInSeconds }],
-                                startsAt: timeInSeconds,
-                                endsAt: timeInSeconds + 5 // Approximate end time
+                                content: [{ content: match[3].trim(), startsAt: timeInSeconds / 1000 }],
+                                timeS: timeInSeconds / 1000,
+                                timeE: timeInSeconds / 1000 + 8 // Extended display window (8 seconds)
                             };
                         }
                         return null;
@@ -177,11 +181,11 @@ export default function Page() {
                         if (match) {
                             const minutes = parseInt(match[1]);
                             const seconds = parseFloat(match[2]);
-                            const timeInSeconds = minutes * 60 + seconds;
+                            const timeInSeconds = Math.round((minutes * 60 + seconds) * 1000); // Convert to milliseconds and round
                             return {
-                                content: [{ content: match[3].trim(), startsAt: timeInSeconds }],
-                                startsAt: timeInSeconds,
-                                endsAt: timeInSeconds + 5 // Approximate end time
+                                content: [{ content: match[3].trim(), startsAt: timeInSeconds / 1000 }],
+                                timeS: timeInSeconds / 1000,
+                                timeE: timeInSeconds / 1000 + 8 // Extended display window (8 seconds)
                             };
                         }
                         return null;
@@ -236,9 +240,15 @@ export default function Page() {
             setLength(musicData.data.current.info.duration);
             
             // Update server position and timestamp
-            serverPositionRef.current = Number(musicData.position);
+            const serverPosition = Number(musicData.position);
+            serverPositionRef.current = serverPosition;
             lastServerUpdateRef.current = Date.now();
-            setCurrent(Number(musicData.position));
+            
+            // Only sync if server is ahead or difference is more than 2 seconds
+            // This prevents backward jumps when local timer is slightly faster
+            if (serverPosition > current || Math.abs(current - serverPosition) > 2000) {
+                setCurrent(serverPosition);
+            }
             
             // Only clear error if it's "No song playing"
             if (error === 'No song playing') {
@@ -270,14 +280,27 @@ export default function Page() {
         }
     }, [musicData]);
 
+    // Fetch lyrics when title and author are updated
+    useEffect(() => {
+        // Skip if no valid data or if it's the initial state
+        if (!title || !author || title === '沒有正在播放的歌曲' || author === 'N/A') {
+            return;
+        }
+        
+        // Only fetch if we don't already have lyrics for this song
+        if (!lyricsLoaded && asyncLyrics.length === 0 && !lyrics) {
+            fetchLyricsAsync();
+        }
+    }, [title, author]);
+
     // Client-side position counter when not paused
     useEffect(() => {
         if (paused || !musicData?.playing) return;
         
         const interval = setInterval(() => {
-            // Calculate position based on server time + elapsed time + 0.5s offset for sync
+            // Calculate position based on server time + elapsed time
             const elapsedSinceUpdate = Date.now() - lastServerUpdateRef.current;
-            const estimatedPosition = serverPositionRef.current + elapsedSinceUpdate + 500; // Add 500ms
+            const estimatedPosition = serverPositionRef.current + elapsedSinceUpdate;
             setCurrent(estimatedPosition);
         }, 100); // Update more frequently for smoother display
 
